@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F3EEE3">
+  <meta name="description" content="DropZone Market-ის პარტნიორები და სპონსორები.">
+  <title>სპონსორები | DropZone Market</title>
+  <link rel="icon" type="image/png" href="assets/dropzone-brand-round.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="shared-layout.css">
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="firebase-init.js"></script>
+  <script src="shared-layout.js" defer></script>
+  <script src="ui-icons.js" defer></script>
+  <script src="sponsors.js" defer></script>
+  <script src="page-transitions.js" defer></script>
+</head>
+<body data-theme="light">
+  <div id="shared-header"></div>
+  <main class="sponsors-page shell">
+    <div class="page-kicker"><span>DROPZONE / PARTNERS</span><span>ადგილობრივი ნიჭის მხარდაჭერა</span></div>
+    <section class="sponsors-intro">
+      <p class="eyebrow">ერთად ვუჭერთ მხარს შემოქმედებას</p>
+      <h1>ჩვენი <span>პარტნიორები.</span></h1>
+      <p>პარტნიორები გვეხმარებიან ადგილობრივი ხელოვანებისა და მცირე ბიზნესის განვითარებაში.</p>
+    </section>
+    <section class="featured-partner" id="featured-partner" aria-labelledby="featured-partner-title">
+      <p class="eyebrow">მთავარი პარტნიორი</p>
+      <div class="featured-partner-content" id="featured-partner-content">
+        <img class="featured-partner-logo" src="assets/nino-school-logo.png" alt="უცხო ენების უმაღლესი სკოლა ნინო — ლოგო">
+        <div><h2 id="featured-partner-title">უცხო ენების უმაღლესი სკოლა ნინო</h2><p>მადლობა მხარდაჭერისა და პარტნიორობისთვის.</p></div>
+      </div>
+    </section>
+    <section class="sponsor-directory" aria-labelledby="sponsor-directory-title">
+      <div class="section-heading"><div><p class="eyebrow">DROPZONE / COMMUNITY</p><h2 id="sponsor-directory-title">სპონსორები</h2></div></div>
+      <div class="sponsor-grid" id="sponsor-grid" aria-live="polite"><p class="demo-note">სპონსორები იტვირთება…</p></div>
+    </section>
+  </main>
+  <div id="shared-footer"></div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F3EEE3">
+  <meta name="description" content="განათავსე შენი ხელნაკეთი ნამუშევარი ან ლოკალური პროდუქტი DropZone Market-ზე.">
+  <title>ნამუშევრის დამატება — DropZone Market</title>
+  <link rel="icon" type="image/png" href="../assets/dropzone-brand-round.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../admin.css">
+  <link rel="stylesheet" href="../shared-layout.css">
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+  <script src="../firebase-config.js"></script>
+  <script src="../firebase-init.js"></script>
+  <script src="../shared-layout.js" defer></script>
+  <script src="../ui-icons.js" defer></script>
+  <script src="../app.js" defer></script>
+  <script src="../page-transitions.js" defer></script>
+</head>
+<body id="top">
+  <div id="shared-header"></div>
+  <!-- განცხადების ფორმა, პაკეტები და გამყიდველის არხები -->
+  <main class="editorial-page shell contact-page">
+    <div class="page-kicker"><span>DROPZONE / შემქმნელებისთვის</span><span>შენი იდეა, ახალი აუდიტორია</span></div>
+    <section class="contact-intro"><div><p class="eyebrow">გააზიარე შენი შემოქმედება</p><h1>ნამუშევრის <span>დამატება</span></h1><p class="lead-copy">შეავსე ნამუშევრის მონაცემები და გააცანი ის ლოკალურ აუდიტორიას. კერძო შემქმნელისთვის პირველი 3 განცხადება უფასოა.</p></div><div class="contact-side-note"><span class="note-mark">✳</span><p>შენს იდეას<br>საკუთარი ამბავი აქვს.</p></div></section>
+    <div class="contact-layout">
+      <form class="listing-form" id="listing-form" novalidate>
+        <div class="form-heading"><span>01 / ნამუშევარი</span><span>შეავსე ყველა სავალდებულო ველი</span></div>
+        <label class="field-label">გამყიდველის ტიპი<select id="seller-role" name="sellerRole" required><option value="private">კერძო პირი</option><option value="business">კომპანია / მაღაზია</option></select></label>
+        <label class="field-label">განცხადების ტიპი<select name="promotion" id="promotion-select" required><option value="free">უფასო</option><option value="vip">VIP — 3 ₾ / 3 დღე</option><option value="vipplus">VIP+ — 7 ₾</option><option value="premium">PREMIUM — 15 ₾</option></select></label>
+        <div class="business-fields" id="business-fields" hidden>
+          <label class="field-label">ბრენდის / მაღაზიის სახელი<input name="storeName" type="text" placeholder="მაგალითად, ლოკალური სტუდია"></label>
+          <div class="social-inputs"><label class="field-label">ტელეფონი<input name="phone" type="tel" placeholder="+995 5XX XX XX XX"></label><label class="field-label">ელ. ფოსტა<input name="email" type="email" placeholder="shop@example.ge"></label><label class="field-label">შოურუმის მისამართი<input name="address" type="text" placeholder="ქუჩა, ქალაქი"></label><label class="field-label">ინსტაგრამის ბმული<input name="instagram" type="url" placeholder="https://instagram.com/..."></label><label class="field-label">ტიქტოკის ბმული<input name="tiktok" type="url" placeholder="https://tiktok.com/@..."></label><label class="field-label">ფეისბუქის ბმული<input name="facebook" type="url" placeholder="https://facebook.com/..."></label><label class="field-label">WhatsApp-ის ბმული<input name="whatsapp" type="url" placeholder="https://wa.me/..."></label><label class="field-label">ვებგვერდის ბმული<input name="website" type="url" placeholder="https://..."></label></div>
+          <p class="field-hint">მაღაზიის განცხადებების განსათავსებლად საჭიროა ბიზნეს პაკეტის გააქტიურება.</p>
+        </div>
+        <div class="form-row"><label class="field-label">ნამუშევრის დასახელება<input name="name" type="text" placeholder="მაგალითად, ხელნაკეთი კერამიკული ლარნაკი" required></label><label class="field-label">ფასი (₾)<input name="price" type="number" min="1" step="1" placeholder="120" required></label></div>
+        <label class="field-label">კატეგორია<select id="listing-category" name="category" required><option value="ხელნაკეთი & ხელოვნება">ხელნაკეთი &amp; ხელოვნება</option><option value="ლოკალური ბრენდები">ლოკალური ბრენდები</option><option value="სთრითვარი">სთრითვარი</option><option value="ფეხსაცმელი">ფეხსაცმელი</option><option value="აქსესუარები & ტექნიკა">აქსესუარები &amp; ტექნიკა</option><option value="პოსტერები & პრინტები">პოსტერები &amp; პრინტები</option><option value="სახლი & დეკორი">სახლი &amp; დეკორი</option><option value="ციფრული სერვისები">ციფრული სერვისები</option><option value="სხვა…">სხვა…</option></select></label>
+        <label class="field-label">ტეგები (არასავალდებულო)<select id="listing-tags" name="tags" multiple size="4"></select></label>
+        <label class="field-label"><span data-i18n="გამყიდველის IBAN">გამყიდველის IBAN</span><input name="sellerIban" type="text" inputmode="text" autocomplete="off" placeholder="GE00AA0000000000000000" pattern="GE[0-9]{2}[A-Z]{2}[0-9]{15,16}" title="GE + 2 ციფრი + ბანკის 2 ასო + 15 ან 16 ციფრი" required><small data-i18n="მყიდველი ამ ანგარიშზე გადარიცხავს ნივთის ღირებულებას.">მყიდველი ამ ანგარიშზე გადარიცხავს ნივთის ღირებულებას.</small></label>
+        <label class="maker-opt-in"><input name="localMaker" type="checkbox" checked><span data-i18n="მე ვარ ადგილობრივი შემქმნელი">მე ვარ ადგილობრივი შემქმნელი</span></label>
+        <div class="form-row"><label class="field-label">ქალაქი<input name="city" type="text" placeholder="თბილისი" required></label><label class="field-label"><span>ფოტო ან ვიდეო</span><input id="image-file" name="image" type="file" accept="image/*,video/*" required><small>აირჩიე ფოტო ან ვიდეო (ვიდეოს ატვირთვისთვის საჭიროა Firebase-ის კონფიგურაცია).</small></label></div>
+        <figure class="image-preview" id="image-preview" hidden><img id="image-preview-img" alt="ატვირთული ფაილის გადახედვა"><video id="image-preview-video" controls muted playsinline hidden></video><figcaption>ფაილის გადახედვა</figcaption></figure>
+        <label class="field-label">აღწერა<textarea name="description" rows="4" placeholder="მასალა, ფერები, დამზადების პროცესი და სხვა მნიშვნელოვანი დეტალები..." required></textarea></label>
+        <div class="listing-submit"><p id="limit-note">კერძო შემქმნელს აქვს 3 უფასო განცხადება.</p><button class="button button-primary" type="submit">ნამუშევრის დამატება <span>↗</span></button></div>
+        <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+      </form>
+      <aside class="contact-aside"><div class="aside-card"><span class="eyebrow">გამყიდველის პაკეტები</span><h2>აირჩიე შენი<br><span>რიტმი.</span></h2><div class="package-mini"><span>კერძო პირი</span><strong>3 უფასო ნივთი</strong><small>შემდეგ: 5 ₾ / 5 ნივთი</small></div><div class="package-mini business-mini"><span>მაღაზია</span><strong>100 ₾ / 100 ნივთი</strong><small>დადასტურებული ბეჯი და სოციალური ბმულები</small></div><button class="text-link" type="button" data-open-balance>პაკეტების ნახვა <span>↗</span></button></div><div class="contact-details"><span class="eyebrow">მოგვწერე</span><a href="mailto:dachilomidze499@gmail.com">dachilomidze499@gmail.com ↗</a><a href="https://www.instagram.com/dropzone_122?jplx=MTVkd3Nmb3drMnV3Zg%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer">@dropzone_122 ↗</a></div></aside>
+    </div>
+    <section class="feedback-section" aria-labelledby="feedback-title">
+      <div>
+        <p class="eyebrow">DROPZONE / FEEDBACK</p>
+        <h2 id="feedback-title">მოგვწერე <span>შეტყობინება</span></h2>
+        <p class="lead-copy">კითხვები ან იდეები გაქვს? გამოგვიგზავნე უკუკავშირი.</p>
+      </div>
+      <form class="feedback-form" id="contact-form">
+        <label class="field-label">სახელი<input name="name" autocomplete="name" required maxlength="100"></label>
+        <label class="field-label">ელ-ფოსტა<input name="email" type="email" autocomplete="email" required maxlength="254"></label>
+        <label class="field-label">შეტყობინება<textarea name="message" rows="5" required maxlength="3000"></textarea></label>
+        <button class="button button-primary" type="submit">შეტყობინების გაგზავნა <span>↗</span></button>
+        <p class="form-message" id="contact-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+  <div id="shared-footer"></div>
+  <div id="modal-root"></div>
+</body>
+</html>

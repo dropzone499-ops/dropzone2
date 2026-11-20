@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F3EEE3">
+  <meta name="description" content="დაუკავშირდი DropZone Market-ს — სარეკლამო და პარტნიორობის შეთავაზებები სკოლებისა და ბრენდებისთვის.">
+  <title>კონტაქტი — DropZone Market</title>
+  <link rel="icon" type="image/png" href="assets/dropzone-brand-round.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="shared-layout.css">
+  <style>
+    .editorial-page.contact-page .contact-feedback {
+      display: grid !important;
+      grid-template-columns: minmax(0, .8fr) minmax(280px, 1fr);
+      gap: clamp(24px, 7vw, 100px);
+      margin: 34px 5% 0;
+      padding: clamp(22px, 5vw, 56px);
+      border: 1px solid #1112;
+      border-radius: 24px;
+      background: #F3EEE3;
+      color: #111;
+    }
+    .contact-feedback .eyebrow { color: #D9541E; }
+    .contact-feedback h2 { color: #111; }
+    .contact-feedback h2 span { color: #D9541E; }
+    .contact-feedback .lead-copy,
+    .contact-feedback .field-hint { color: #514A42; }
+    .contact-feedback .contact-methods a { border-color: #1113; color: #514A42; }
+    .contact-feedback .contact-methods a span { color: #111; }
+    .contact-feedback .feedback-form { display: grid; gap: 14px; }
+    .contact-feedback .field-label { margin: 0; color: #111; }
+    .contact-feedback .field-label input,
+    .contact-feedback .field-label textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 11px 12px;
+      border: 1px solid #111;
+      border-radius: 12px;
+      background: #FFFCF5;
+      color: #111;
+      font: inherit;
+    }
+    .contact-feedback .field-label textarea { resize: vertical; }
+    .contact-feedback .field-label input::placeholder,
+    .contact-feedback .field-label textarea::placeholder { color: #746C62; }
+    .contact-feedback .field-label input:focus,
+    .contact-feedback .field-label textarea:focus { outline: 2px solid #D9541E; outline-offset: 2px; }
+    .contact-feedback .button-primary {
+      justify-self: start;
+      background: #D9541E;
+      color: #F3EEE3;
+    }
+    .contact-feedback .form-message { min-height: 1.5em; margin: 0; color: #111; }
+    @media (max-width: 720px) {
+      .editorial-page.contact-page .contact-feedback {
+        grid-template-columns: 1fr;
+        margin-inline: 0;
+        padding: 22px;
+      }
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
+  <script src="firebase-config.js"></script>
+  <script src="firebase-init.js"></script>
+  <script src="shared-layout.js" defer></script>
+  <script src="ui-icons.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="page-transitions.js" defer></script>
+</head>
+<body id="top">
+  <div id="shared-header"></div>
+  <main class="editorial-page shell contact-page">
+    <div class="page-kicker"><span>DROPZONE / კონტაქტი</span><span>მოდი, ვითანამშრომლოთ</span></div>
+    <section class="contact-intro">
+      <div><p class="eyebrow">კითხვები, იდეები და თანამშრომლობა</p><h1>მოგვწერე <span>შენი იდეა</span></h1><p class="lead-copy">სკოლებისთვის, ორგანიზაციებისა და ბრენდებისთვის — გამოგვიგზავნე სარეკლამო ან პარტნიორობის შეთავაზება.</p></div>
+      <div class="contact-side-note"><span class="note-mark">✳</span><p>კარგი იდეები<br>ერთად იწყება.</p></div>
+    </section>
+    <section class="feedback-section contact-feedback" aria-labelledby="contact-title">
+      <div>
+        <p class="eyebrow">DROPZONE / PARTNERSHIPS</p>
+        <h2 id="contact-title">საკონტაქტო <span>ინფორმაცია</span></h2>
+        <p class="lead-copy">პირდაპირ მოგვწერე ელფოსტაზე ან გამოგვყევი Instagram-ზე.</p>
+        <div class="contact-methods">
+          <a href="mailto:dachilomidze499@gmail.com">ელ-ფოსტა <span>dachilomidze499@gmail.com ↗</span></a>
+          <a href="https://www.instagram.com/dropzone_122?jplx=MTVkd3Nmb3drMnV3Zg%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram <span>@dropzone_122 ↗</span></a>
+        </div>
+      </div>
+      <form class="feedback-form" id="partnership-form">
+        <div><p class="eyebrow">სარეკლამო და პარტნიორობის ფორმა</p><p class="field-hint">შეავსე სკოლამ, ორგანიზაციამ ან ბრენდმა თანამშრომლობის დასაწყებად.</p></div>
+        <label class="field-label">სახელი<input name="name" type="text" autocomplete="name" maxlength="100" placeholder="შენი სახელი" required></label>
+        <label class="field-label">ელ-ფოსტა / ტელეფონი<input name="contact" type="text" autocomplete="email" maxlength="254" placeholder="ელ-ფოსტა ან ტელეფონის ნომერი" required></label>
+        <label class="field-label">თემა / ორგანიზაცია<input name="organization" type="text" autocomplete="organization" maxlength="150" placeholder="სკოლა, ორგანიზაცია ან ბრენდი" required></label>
+        <label class="field-label">შეტყობინება<textarea name="message" rows="5" maxlength="3000" placeholder="მოგვიყევი შენი იდეის შესახებ..." required></textarea></label>
+        <input type="hidden" name="time">
+        <button class="button button-primary" type="submit">შეტყობინების გაგზავნა <span>↗</span></button>
+        <p class="form-message" id="partnership-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+    <script>
+      document.getElementById('partnership-form').addEventListener('submit', async event => {
+        event.preventDefault();
+        event.stopPropagation();
+        const form = event.currentTarget;
+        if (!form.reportValidity()) return;
+        const data = new FormData(form);
+        const record = {
+          name: String(data.get('name') || '').trim(),
+          contact: String(data.get('contact') || '').trim(),
+          organization: String(data.get('organization') || '').trim(),
+          message: String(data.get('message') || '').trim()
+        };
+        const status = document.getElementById('partnership-message');
+        const submit = form.querySelector('button[type="submit"]');
+        if (!Object.values(record).every(Boolean)) {
+          status.textContent = 'შეავსე ყველა სავალდებულო ველი.';
+          return;
+        }
+        if (!window.emailjs?.sendForm) {
+          status.textContent = 'შეტყობინება ვერ გაიგზავნა: ელფოსტის სერვისი მიუწვდომელია. სცადე მოგვიანებით.';
+          return;
+        }
+        submit.disabled = true;
+        status.textContent = 'შეტყობინება იგზავნება…';
+        try {
+          form.elements.name.value = record.name;
+          form.elements.contact.value = record.contact;
+          form.elements.organization.value = record.organization;
+          form.elements.message.value = record.message;
+          form.elements.time.value = new Date().toISOString();
+          await window.emailjs.sendForm('dropzone', 'template_fzs6uke', form, { publicKey: 'Eusz1ZX9MxOYyF3ou' });
+          form.reset();
+          status.textContent = 'მადლობა! შენი შეტყობინება წარმატებით გაიგზავნა.';
+        } catch (error) {
+          console.error('Unable to send the partnership inquiry through EmailJS.', error);
+          status.textContent = 'შეტყობინება ვერ გაიგზავნა. შეამოწმე კავშირი ან სცადე მოგვიანებით.';
+        } finally {
+          submit.disabled = false;
+        }
+      });
+    </script>
+  </main>
+  <div id="shared-footer"></div>
+  <div id="modal-root"></div>
+</body>
+</html>

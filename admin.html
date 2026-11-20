@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F3EEE3">
+  <meta name="description" content="DropZone Market-ის ადმინისტრატორის პანელი.">
+  <title>ადმინისტრატორის პანელი | DropZone Market</title>
+  <link rel="icon" type="image/png" href="assets/dropzone-brand-round.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="shared-layout.css">
+  <script src="shared-layout.js" defer></script>
+  <script src="ui-icons.js" defer></script>
+  <script src="admin-api.js" defer></script>
+  <script src="admin.js" defer></script>
+  <script src="page-transitions.js" defer></script>
+</head>
+<body class="admin-page">
+  <div id="shared-header"></div>
+  <main class="admin-dashboard shell">
+    <div class="page-kicker"><span>DROPZONE / MANAGEMENT</span><span id="admin-connection">მონაცემების ჩატვირთვა…</span></div>
+    <section class="admin-dashboard-heading">
+      <div><p class="eyebrow">ადმინისტრირება</p><h1>ადმინისტრატორის <span>პანელი</span></h1></div>
+      <p class="demo-note">ადმინის წვდომა მხოლოდ სერვერზე შემოწმებული PIN-ით ხდება. ლოკალური სატესტო მონაცემებისთვის გაუშვი <code>npm run dev</code>; Firebase service account-ის გასაღებები ბრაუზერში არ იტვირთება.</p>
+    </section>
+    <section id="admin-pin-card" class="admin-dashboard-card">
+      <div class="admin-dashboard-card-heading"><div><p class="eyebrow">ADMIN / PIN</p><h2>ადმინისტრატორის PIN</h2></div></div>
+      <form id="admin-pin-form" class="admin-settings-form admin-pin-form">
+        <label class="field-label" for="admin-pin-input">PIN კოდი
+          <input id="admin-pin-input" name="pin" type="password" inputmode="numeric" autocomplete="current-password" required>
+        </label>
+        <button class="button button-primary" type="submit">გაგრძელება</button>
+      </form>
+      <p id="admin-pin-message" class="form-message" role="status">შესასვლელად შეიყვანე ადმინისტრატორის PIN.</p>
+    </section>
+    <div id="admin-dashboard-content" hidden>
+      <nav class="admin-tabs" role="tablist" aria-label="ადმინისტრატორის სექციები">
+        <button class="admin-tab is-active" id="tab-pending" type="button" role="tab" aria-selected="true" aria-controls="panel-pending" data-admin-tab="panel-pending">მოლოდინში მყოფი პროდუქტები <span id="pending-count">0</span></button>
+        <button class="admin-tab" id="tab-payments" type="button" role="tab" aria-selected="false" aria-controls="panel-payments" data-admin-tab="panel-payments">გადახდები / ბალანსი</button>
+        <button class="admin-tab" id="tab-products" type="button" role="tab" aria-selected="false" aria-controls="panel-products" data-admin-tab="panel-products">ყველა პროდუქტი <span id="all-products-count">0</span></button>
+        <button class="admin-tab" id="tab-orders" type="button" role="tab" aria-selected="false" aria-controls="panel-orders" data-admin-tab="panel-orders">შეკვეთები / სტატუსები</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-finance" data-admin-tab="panel-finance">ფინანსები / CSV</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-vendors" data-admin-tab="panel-vendors">გამყიდველები / KYC</button>
+        <button class="admin-tab" id="tab-users" type="button" role="tab" aria-selected="false" aria-controls="panel-users" data-admin-tab="panel-users">მომხმარებლები <span id="admin-users-count">0</span></button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-sponsors" data-admin-tab="panel-sponsors">სპონსორები</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-ads" data-admin-tab="panel-ads">რეკლამები</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-reports" data-admin-tab="panel-reports">რეპორტები</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-site-config" data-admin-tab="panel-site-config">საიტის ტექსტები</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-disputes" data-admin-tab="panel-disputes">დავები</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-taxonomy" data-admin-tab="panel-taxonomy">კატეგორიები / ტეგები</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-promos" data-admin-tab="panel-promos">პრომო კოდები</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-audit" data-admin-tab="panel-audit">აქტივობის ჟურნალი</button>
+      </nav>
+      <section id="panel-pending" class="admin-dashboard-card admin-tab-panel" role="tabpanel" aria-labelledby="tab-pending">
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">01 / MODERATION</p><h2>მოლოდინში მყოფი პროდუქტები</h2></div></div>
+        <div id="admin-pending-products" class="admin-listings"></div>
+      </section>
+      <section id="panel-payments" class="admin-dashboard-card admin-tab-panel" role="tabpanel" aria-labelledby="tab-payments" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">02 / PAYMENTS</p><h2>გადახდები და ბალანსის მოთხოვნები</h2></div></div>
+        <p class="demo-note">დადასტურებამდე გადაამოწმე ტრანზაქციის ნომერი და თანხა ბანკის ამონაწერში.</p>
+        <div id="admin-payments" class="admin-payments"></div>
+      </section>
+      <section id="panel-products" class="admin-dashboard-card admin-tab-panel" role="tabpanel" aria-labelledby="tab-products" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">03 / CATALOG</p><h2>ყველა პროდუქტი</h2></div></div>
+        <div id="admin-all-products" class="admin-listings"></div>
+      </section>
+      <section id="panel-orders" class="admin-dashboard-card admin-tab-panel" role="tabpanel" aria-labelledby="tab-orders" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">04 / ORDER TRACKING</p><h2>მყიდველთა შეკვეთები</h2></div></div>
+        <p class="demo-note">Checkout ამჟამად სატესტო რეჟიმშია: რეალური თანხა არ ჩამოიჭრება. ჩაბარების შემდეგ Escrow/hold აღირიცხება 5 დღით.</p>
+        <div id="admin-orders" class="admin-listings"></div>
+      </section>
+      <section id="panel-finance" class="admin-dashboard-card admin-tab-panel" role="tabpanel" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">05 / FINANCE</p><h2>ტრანზაქციები და გადარიცხვები</h2></div></div>
+        <p class="demo-note">ეს არის ადმინისტრატორის აღრიცხვის ჟურნალი და არა გადახდის პროვაიდერი. ჩაწერა არ ადასტურებს თანხის რეალურ მიღებას ან გადარიცხვას. Escrow-ის ვადა ითვლება მიწოდების თარიღიდან 5 დღით; დავა ავტომატურად აჩერებს payout-ს.</p>
+        <div class="admin-inline-form">
+          <label class="field-label">თარიღიდან<input type="date" id="finance-from"></label>
+          <label class="field-label">თარიღამდე<input type="date" id="finance-to"></label>
+          <button class="admin-verify" type="button" data-finance-export>CSV ჩამოტვირთვა</button>
+        </div>
+        <form id="transaction-form" class="admin-settings-form admin-grid-form">
+          <label class="field-label">ტიპი<select name="type"><option value="sale">პროდუქტის გაყიდვა</option><option value="vip">VIP გამოწერა</option><option value="refund">თანხის დაბრუნება (აღრიცხვა)</option></select></label>
+          <label class="field-label">მყიდველი<input name="buyer" maxlength="160" required></label>
+          <label class="field-label">ხელოვანი / ID<input name="vendorId" maxlength="160"></label>
+          <label class="field-label">აღწერა / შეკვეთის ნომერი<input name="description" maxlength="240" required></label>
+          <label class="field-label">ჯამური თანხა (₾)<input name="amount" type="number" min="0.01" step="0.01" required></label>
+          <label class="field-label">გადახდის მეთოდი<input name="method" maxlength="80" placeholder="ბანკი / ბარათი" required></label>
+          <label class="field-label">მიწოდების თარიღი<input name="deliveredAt" type="date"></label>
+          <button class="button button-primary" type="submit">აღრიცხვაში დამატება</button>
+        </form>
+        <div id="finance-summary" class="admin-overview"></div>
+        <div id="admin-transactions" class="admin-listings"></div>
+        <h3>ხელოვანთა payout-ები</h3><div id="admin-payouts" class="admin-listings"></div>
+        <form id="payout-form" class="admin-settings-form admin-grid-form">
+          <label class="field-label">ხელოვანის ID<input name="vendorId" required></label>
+          <label class="field-label">თანხა (₾)<input name="amount" type="number" min="0.01" step="0.01" required></label>
+          <button class="button button-primary" type="submit">Payout მოთხოვნის დამატება</button>
+        </form>
+      </section>
+      <section id="panel-vendors" class="admin-dashboard-card admin-tab-panel" role="tabpanel" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">06 / VENDORS</p><h2>გამყიდველის KYC და VIP</h2></div></div>
+        <p class="demo-note">პირადი ნომერი და IBAN სენსიტიური მონაცემებია: ჩაწერე მხოლოდ საჭიროების შემთხვევაში და წვდომა შეზღუდე ადმინისტრატორებით.</p>
+        <form id="vendor-form" class="admin-settings-form admin-grid-form">
+          <label class="field-label">სახელი<input name="firstName" maxlength="100" required></label>
+          <label class="field-label">გვარი<input name="lastName" maxlength="100" required></label>
+          <label class="field-label">პირადი / საიდენტიფიკაციო ნომერი<input name="identityNumber" maxlength="64" required></label>
+          <label class="field-label">IBAN<input name="iban" maxlength="34" required></label>
+          <label class="field-label">ქვეყანა<input name="country" maxlength="80" required></label>
+          <label class="field-label">ელფოსტა / გამყიდველის ID<input name="email" type="email" maxlength="254" required></label>
+          <button class="button button-primary" type="submit">KYC ჩანაწერის შენახვა</button>
+        </form>
+        <div id="admin-vendors" class="admin-listings"></div>
+      </section>
+      <section id="panel-users" class="admin-dashboard-card admin-tab-panel" role="tabpanel" aria-labelledby="tab-users" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">07 / USERS</p><h2>რეგისტრირებული მომხმარებლები</h2></div></div>
+        <div class="admin-user-controls">
+          <label class="field-label">ძებნა<input id="admin-users-search" type="search" placeholder="სახელი ან ელ-ფოსტა" autocomplete="off"></label>
+          <label class="field-label">ფილტრი<select id="admin-users-filter"><option value="all">ყველა</option><option value="artists">ხელოვანები / მაღაზიები</option><option value="banned">დაბლოკილები</option></select></label>
+        </div>
+        <p id="admin-users-message" class="form-message" role="status">მომხმარებლების სია Firebase-იდან ჩაიტვირთება.</p>
+        <div id="admin-users" class="admin-user-list" aria-live="polite"></div>
+      </section>
+      <section id="panel-sponsors" class="admin-dashboard-card admin-tab-panel" role="tabpanel" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">11 / PARTNERS</p><h2>სპონსორებისა და პარტნიორების მართვა</h2></div></div>
+        <form id="sponsor-form" class="admin-settings-form admin-grid-form">
+          <label class="field-label">სახელი<input name="name" maxlength="160" required></label>
+          <label class="field-label">ლოგო<input name="logo" type="file" accept="image/*"></label>
+          <label class="field-label">აღწერა<textarea name="description" maxlength="1200"></textarea></label>
+          <label class="field-label">ვებგვერდი<input name="websiteUrl" type="url" maxlength="2048" placeholder="https://example.ge"></label>
+          <label class="field-label">დონე<select name="tier"><option value="partner">პარტნიორი</option><option value="bronze">Bronze</option><option value="silver">Silver</option><option value="gold">Gold</option></select></label>
+          <label class="admin-checkbox"><input name="active" type="checkbox" checked> აქტიური</label>
+          <button class="button button-primary" type="submit">სპონსორის დამატება</button>
+        </form>
+        <div id="admin-sponsors" class="admin-listings"></div>
+      </section>
+      <section id="panel-ads" class="admin-dashboard-card admin-tab-panel" role="tabpanel" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">12 / CAMPAIGNS</p><h2>რეკლამები და ბანერები</h2></div></div>
+        <form id="ad-form" class="admin-settings-form admin-grid-form">
+          <label class="field-label">სათაური<input name="title" maxlength="160" required></label>
+          <label class="field-label">ბანერის სურათი<input name="image" type="file" accept="image/*" required></label>
+          <label class="field-label">ბმული<input name="linkUrl" type="url" maxlength="2048" required></label>
+          <label class="field-label">განთავსების ადგილი<select name="placement"><option value="home-hero">მთავარი — Hero</option><option value="catalog">კატალოგი</option><option value="premium">Premium სექცია</option></select></label>
+          <label class="field-label">Featured / Boost პროდუქტის ID<input name="featuredProductId" maxlength="160"></label>
+          <label class="field-label">Boost დონე<select name="promotionTier"><option value="none">არ გამოიყენო</option><option value="vip">VIP</option><option value="vipplus">VIP+</option><option value="premium">Premium</option></select></label>
+          <label class="admin-checkbox"><input name="active" type="checkbox" checked> აქტიური</label>
+          <button class="button button-primary" type="submit">ბანერის შექმნა</button>
+        </form>
+        <div id="admin-ads" class="admin-listings"></div>
+      </section>
+      <section id="panel-reports" class="admin-dashboard-card admin-tab-panel" role="tabpanel" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">13 / TRUST & SAFETY</p><h2>მომხმარებლებისა და პროდუქტების რეპორტები</h2></div></div>
+        <div id="admin-reports" class="admin-listings"></div>
+      </section>
+      <section id="panel-site-config" class="admin-dashboard-card admin-tab-panel" role="tabpanel" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">14 / SITE CONFIG</p><h2>მთავარი პარტნიორი და მოცურავე ზოლი</h2></div></div>
+        <form id="site-config-form" class="admin-settings-form admin-grid-form">
+          <label class="field-label">პარტნიორის სახელი<input name="partnerName" maxlength="160" required></label>
+          <label class="field-label">მოცურავე ზოლის ტექსტი<input name="tickerMessage" maxlength="240" required></label>
+          <label class="field-label">აღწერა<textarea name="partnerDescription" maxlength="1200"></textarea></label>
+          <label class="field-label">ვებგვერდი<input name="partnerWebsiteUrl" type="url" maxlength="2048"></label>
+          <label class="field-label">ლოგო<input name="partnerLogo" type="file" accept="image/*"></label>
+          <button class="button button-primary" type="submit">პარამეტრების შენახვა</button>
+        </form>
+        <p id="site-config-message" class="form-message" role="status"></p>
+      </section>
+      <section id="panel-disputes" class="admin-dashboard-card admin-tab-panel" role="tabpanel" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">07 / DISPUTES</p><h2>დავები და დაბრუნების აღრიცხვა</h2></div></div>
+        <p class="demo-note">„დაბრუნებულად მონიშვნა“ მხოლოდ აღრიცხვის ჩანაწერს ქმნის და ტრანზაქციას უარყოფითად ასახავს. თანხის რეალური დაბრუნება უნდა შესრულდეს ბანკის/გადახდის პროვაიდერის გავლით.</p>
+        <form id="dispute-form" class="admin-settings-form admin-grid-form">
+          <label class="field-label">შეკვეთის / ტრანზაქციის ID<input name="transactionId" required></label>
+          <label class="field-label">მომჩივანი<input name="reporter" maxlength="160" required></label>
+          <label class="field-label">მიზეზი<textarea name="reason" maxlength="1200" required></textarea></label>
+          <button class="button button-primary" type="submit">დავის რეგისტრაცია</button>
+        </form>
+        <div id="admin-disputes" class="admin-listings"></div>
+      </section>
+      <section id="panel-taxonomy" class="admin-dashboard-card admin-tab-panel" role="tabpanel" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">08 / TAXONOMY</p><h2>კატეგორიებისა და ტეგების მართვა</h2></div></div>
+        <form id="taxonomy-form" class="admin-settings-form admin-inline-form">
+          <select name="collection" aria-label="ტიპი"><option value="categories">კატეგორია</option><option value="tags">ტეგი</option></select>
+          <input name="name" maxlength="80" placeholder="სახელი" required>
+          <button class="button button-primary" type="submit">დამატება</button>
+        </form>
+        <div id="admin-taxonomy" class="admin-listings"></div>
+      </section>
+      <section id="panel-promos" class="admin-dashboard-card admin-tab-panel" role="tabpanel" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">09 / PROMOTIONS</p><h2>ფასდაკლების კოდები</h2></div></div>
+        <p class="demo-note">კოდების შექმნა Firestore-შია, თუმცა checkout-ის ფასი ამ ვერსიაში მხოლოდ დემოა და პრომო კოდი რეალურ გადახდას არ ცვლის.</p>
+        <form id="promo-form" class="admin-settings-form admin-grid-form">
+          <label class="field-label">კოდი<input name="code" maxlength="32" pattern="[A-Za-z0-9_-]+" required></label>
+          <label class="field-label">ფასდაკლება (%)<input name="discountPercent" type="number" min="1" max="99" step="1" required></label>
+          <label class="field-label">ვადა<input name="expiresAt" type="date" required></label>
+          <button class="button button-primary" type="submit">კოდის შექმნა</button>
+        </form>
+        <div id="admin-promos" class="admin-listings"></div>
+      </section>
+      <section id="panel-audit" class="admin-dashboard-card admin-tab-panel" role="tabpanel" hidden>
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">10 / AUDIT</p><h2>ადმინისტრატორის აქტივობა</h2></div></div>
+        <div id="admin-audit" class="admin-listings"></div>
+      </section>
+      <section class="admin-dashboard-card">
+        <div class="admin-dashboard-card-heading"><div><p class="eyebrow">04 / PLATFORM</p><h2>საკომისიოს მართვა</h2></div></div>
+        <form id="commission-form" class="admin-settings-form">
+          <label class="field-label">საკომისიო პროცენტი (%)<input name="commissionRate" type="number" min="0" max="100" step="0.01" required></label>
+          <button class="button button-primary" type="submit">შენახვა</button>
+        </form>
+        <p id="commission-message" class="form-message" role="status"></p>
+      </section>
+    </div>
+  </main>
+  <div id="shared-footer"></div>
+  <script src="admin-marketplace.js" defer></script>
+</body>
+</html>

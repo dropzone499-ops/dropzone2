@@ -1,0 +1,103 @@
+<doctype html>
+<html lang="ka">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F3EEE3">
+  <meta name="description" content="აღმოაჩინე უნიკალური ხელნაკეთი ნივთები, ტანსაცმელი და ლოკალური ქართველი ავტორების ნამუშევრები DropZone Market-ზე.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DropZone Market">
+  <meta property="og:title" content="DropZone Market | ქართველი ოსტატები და ლოკალური ბრენდები">
+  <meta property="og:description" content="აღმოაჩინე უნიკალური ხელნაკეთი ნივთები, ტანსაცმელი და ლოკალური ქართველი ავტორების ნამუშევრები DropZone Market-ზე.">
+  <meta property="og:image" content="assets/dropzone-brand-round.png">
+  <meta property="og:locale" content="ka_GE">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DropZone Market | ქართველი ოსტატები და ლოკალური ბრენდები">
+  <meta name="twitter:description" content="აღმოაჩინე უნიკალური ხელნაკეთი ნივთები, ტანსაცმელი და ლოკალური ქართველი ავტორების ნამუშევრები DropZone Market-ზე.">
+  <meta name="twitter:image" content="assets/dropzone-brand-round.png">
+  <meta name="twitter:image:alt" content="DropZone Market — ადგილობრივი ქართველი შემქმნელები">
+  <title>DropZone Market | ქართველი ოსტატები და ლოკალური ბრენდები</title>
+  <link rel="icon" type="image/png" href="assets/dropzone-brand-round.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="shared-layout.css">
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="firebase-init.js"></script>
+  <script src="shared-layout.js" defer></script>
+  <script src="ui-icons.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="page-transitions.js" defer></script>
+</head>
+<body id="top">
+  <div id="shared-header"></div>
+
+  <!-- მთავარი გვერდის შინაარსი -->
+  <main>
+    <!-- ბრენდის მთავარი წარდგენა -->
+    <section class="hero shell">
+      <div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span> ხელნაკეთი. უნიკალური. ლოკალური.</p><h1>შენი იდეა.<br><span>შენი შემოქმედება.</span></h1><p class="hero-description">აღმოაჩინე უნიკალური ხელნაკეთი ნივთები, ლოკალური ბრენდები და დიზაინერული ნამუშევრები ქართველი შემქმნელებისგან.</p><div class="hero-actions"><a class="button button-primary" href="#კოლექცია">აღმოაჩინე ნამუშევრები <span>↘</span></a><a class="text-link" href="contact/index.html">შენი ნამუშევრის დამატება <span>↗</span></a></div><div class="hero-proof"><span><strong id="hero-product-count">0</strong><br>ნამუშევარი</span><span class="proof-divider"></span><span>რეალური ნამუშევრები ადგილობრივი<br>ხელოვანებისა და მცირე ბიზნესისგან</span></div></div>
+      <div class="hero-visual">
+        <div class="hero-photo">
+          <div class="market-poster"><img src="assets/local-artists-hero-cream.png" alt="Artists, local art and creators"></div>
+          <div class="hero-caption"><span>ARTISAN / LOCAL BRAND / CREATION</span><span>SUPPORT LOCAL ARTISANS &amp; CREATORS</span></div>
+        </div>
+        <div class="floating-tag"><span class="tag-star">✳</span><span>შენი იდეა<br>აქ იწყება</span><b>↗</b></div>
+        <div class="visual-index">01 — 04</div>
+      </div>
+      <div class="hero-side-label">ადგილობრივი შემოქმედება / თბილისი</div>
+    </section>
+    <div class="ad-slot shell" id="ad-home-hero" data-ad-placement="home-hero"></div>
+
+    <!-- ფასიანი Premium განცხადებების სლაიდერი -->
+    <section class="premium-section shell" aria-label="PREMIUM შემოქმედება"><div class="premium-heading"><span>✦</span><div><p class="eyebrow">DROPZONE / LOCAL CREATORS</p><h2>PREMIUM <span>შემოქმედება</span></h2></div><a href="contact/index.html" class="sell-link">შენი ნამუშევრის დამატება ↗</a><div class="carousel-controls" hidden><button type="button" id="premium-prev" aria-label="წინა პრემიუმ ნამუშევარი">←</button><button type="button" id="premium-next" aria-label="შემდეგი პრემიუმ ნამუშევარი">→</button></div></div><div class="premium-carousel" id="premium-carousel"></div><div class="ad-slot" id="ad-premium" data-ad-placement="premium"></div></section>
+    <section class="market shell trending-section" aria-labelledby="trending-title"><div class="section-heading"><div><p class="eyebrow">DROPZONE / DISCOVER</p><h2 id="trending-title">ტრენდული / რეკომენდებული</h2></div></div><div class="product-grid" id="trending-grid"></div></section>
+
+    <!-- ძიება, ფილტრები და დაწინაურებული განცხადებები -->
+    <section class="market shell" id="კოლექცია">
+      <div class="section-heading"><div><p class="eyebrow">აღმოაჩინე ლოკალური ნიჭი</p><h2>ახლად დამატებული ნამუშევრები</h2></div><a href="contact/index.html" class="sell-link">გახდი გამყიდველი ↗</a></div>
+      <div class="filter-panel">
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="მოძებნე ბრენდი, ავტორი ან ნივთი..." aria-label="ნივთის ძიება"><kbd>⌘ K</kbd></label>
+        <label class="location-filter"><span>ქალაქი</span><select id="city-filter" aria-label="ქალაქის ფილტრი"><option value="ყველა">ყველა ქალაქი</option><option value="თბილისი">თბილისი</option><option value="ბათუმი">ბათუმი</option><option value="ქუთაისი">ქუთაისი</option></select></label>
+        <label class="sort-filter"><span>დალაგება</span><select id="sort-filter" aria-label="ნივთების დალაგება"><option value="newest">უახლესი</option><option value="price-low">ფასი: დაბლიდან</option><option value="price-high">ფასი: მაღლიდან</option></select></label>
+      </div>
+      <div class="category-row" id="brands" role="group" aria-label="კატეგორიები"><button class="category-chip selected" data-category="ყველა" type="button">ყველა <span id="all-count">0</span></button><button class="category-chip" data-category="ხელნაკეთი &amp; ხელოვნება" type="button">ხელნაკეთი &amp; ხელოვნება</button><button class="category-chip" data-category="ლოკალური ბრენდები" type="button">ლოკალური ბრენდები</button><button class="category-chip" data-category="სთრითვარი" type="button">სთრითვეარი</button><button class="category-chip" data-category="ფეხსაცმელი" type="button">ფეხსაცმელი</button><button class="category-chip" data-category="აქსესუარები &amp; ტექნიკა" type="button">აქსესუარები &amp; ტექნიკა</button><button class="category-chip" data-category="პოსტერები &amp; პრინტები" type="button">პოსტერები &amp; პრინტები</button><button class="category-chip" data-category="სახლი &amp; დეკორი" type="button">სახლი &amp; დეკორი</button><button class="category-chip" data-category="ციფრული სერვისები" type="button">ციფრული სერვისები</button><button class="category-chip" data-category="სხვა…" type="button">სხვა…</button></div>
+      <div class="ad-slot" id="ad-catalog" data-ad-placement="catalog"></div>
+      <div class="results-meta"><span id="results-count">0 ნივთი</span><span><i class="live-dot"></i> <span id="active-status">განცხადებები არ არის</span></span></div>
+      <div class="product-sections" id="product-grid" aria-live="polite"></div>
+      <div class="empty-state" id="empty-state" hidden><span>⌕</span><h3 id="empty-title">ჯერ ნამუშევრები არ დამატებულა</h3><p id="empty-description">იყავი პირველი ხელოვანი ან ბიზნესი, ვინც ნამუშევარს განათავსებს DropZone-ზე.</p><a class="button button-primary" id="empty-add-link" href="contact/index.html">პირველი ნამუშევრის დამატება <span>↗</span></a><button class="button button-secondary" id="reset-filters" type="button" hidden>ფილტრების გასუფთავება</button></div>
+      <div class="market-bottom"><span>რეალური ადგილობრივი ნამუშევრები</span><span class="bottom-line"></span><span id="catalog-count">0 / 0</span></div>
+    </section>
+
+    <section class="faq-section shell" id="faq" aria-labelledby="faq-title">
+      <div class="section-heading"><div><p class="eyebrow">DROPZONE / FAQ</p><h2 id="faq-title">ხშირად დასმული კითხვები</h2></div><a class="text-link" href="contact.html">სხვა კითხვა გაქვს? მოგვწერე ↗</a></div>
+      <div class="faq-list">
+        <details><summary>როგორ განვათავსო ნამუშევარი?</summary><p>დააჭირე „განათავსე ნივთი“-ს, შეავსე ნამუშევრის მონაცემები და ატვირთე ფოტო ან ვიდეო. კერძო შემქმნელისთვის პირველი 3 განცხადება უფასოა.</p></details>
+        <details><summary>ვინ ყიდის ნივთებს DropZone-ზე?</summary><p>პლატფორმა აერთიანებს ადგილობრივ ხელოვანებს, ხელოსნებს, მცირე ბიზნესებსა და დამოუკიდებელ ბრენდებს.</p></details>
+        <details><summary>როგორ დავუკავშირდე ბრენდს ან გამყიდველს?</summary><p>თითოეული ნამუშევრის გვერდზე მოცემულია ავტორის ან მაღაზიის საკონტაქტო ინფორმაცია. შეთანხმება ხდება უშუალოდ მყიდველსა და გამყიდველს შორის.</p></details>
+        <details><summary>როგორ ვისაუბრო თანამშრომლობაზე?</summary><p>მოგვწერე საკონტაქტო გვერდიდან და აირჩიე შესაბამისი ფორმა სკოლებისთვის, ორგანიზაციებისა და ბრენდებისთვის.</p></details>
+      </div>
+    </section>
+
+    <!-- გამყიდველის მოწვევა -->
+    <section class="sell-banner"><div class="sell-banner-inner shell"><div><p class="eyebrow">შენი შემოქმედება, შენი შესაძლებლობა</p><h2>მიეცი შენს იდეებს<br><span>ფართო ასპარეზი.</span></h2></div><p>შექმენი, აკეთე ის, რაც გიყვარს და მიიტანე შენი პროდუქცია სწორ აუდიტორიამდე. გახადე შენი ბრენდი ცნობადი.</p><a class="button button-light" href="contact/index.html">ნამუშევრის დამატება ↗</a><span class="banner-mark">DZ</span></div></section>
+    <section class="creator-showcase shell" aria-labelledby="creator-showcase-title">
+      <div class="creator-showcase-copy"><p class="eyebrow">DROPZONE / LOCAL CREATORS</p><h2 id="creator-showcase-title">შექმენი.<br><span>გააზიარე.</span></h2><p>შენი ნიჭი და იდეები ადგილობრივ შემოქმედებით სივრცეში გააზიარე.</p></div>
+      <aside class="hero-art-cards" aria-label="DropZone-ის ხელოვნების ბარათები">
+        <article class="hero-art-card hero-art-card--one"><span class="hero-art-kicker">DROPZONE / 01</span><strong>შექმნილი<br>ადგილობრივად</strong><span class="hero-art-mark" aria-hidden="true">✳</span><small>ხელნაკეთი · უნიკალური</small></article>
+        <article class="hero-art-card hero-art-card--two"><span class="hero-art-kicker">MADE TO SHARE</span><strong>ნიჭი, რომელსაც<br>ისტორია აქვს</strong><span class="hero-art-arrow" aria-hidden="true">↗</span><small>აღმოაჩინე ახალი ავტორები</small></article>
+      </aside>
+    </section>
+    <section class="about-values shell home-about"><div class="value-heading"><p class="eyebrow">ჩვენ შესახებ / DROPZONE MARKET</p><h2>ნიჭი არ იმალება.<br><span>ის ზიარდება.</span></h2><p>DropZone Market არის ციფრული სივრცე, სადაც ადგილობრივი შემოქმედება ახალ ეტაპზე გადადის. ვაერთიანებთ ქართველ ხელოვანებს, ხელოსნებსა და მცირე ბიზნესს ერთიან პლატფორმაზე.</p></div><article><b>01 / ადგილობრივი შემოქმედება</b><p>ხელნაკეთი ნივთებიდან ციფრულ დიზაინამდე — ვეხმარებით ადგილობრივ ოსტატებსა და ავტორებს, იპოვონ თავიანთი დაფასება და მომხმარებელი.</p></article><article><b>02 / მცირე ბიზნესის მხარდაჭერა</b><p>ლოკალური ბრენდების სივრცე — დამწყებ მეწარმეებსა და ხელოვანებს ვაძლევთ ციფრულ ინსტრუმენტებს საკუთარი ნამუშევრების წარმატებულად გასაყიდად.</p></article><article><b>03 / გამჭვირვალე არჩევანი</b><p>პირდაპირი კავშირი — თითოეულ განცხადებაში ნახავ დეტალურ ინფორმაციას, ავტორს, ქალაქსა და ბეჯებს. შეთანხმება ხდება პირდაპირ მყიდველსა და შემოქმედს შორის.</p></article></section>
+  </main>
+
+  <div id="shared-footer"></div>
+  <div id="modal-root"></div>
+</body>
+</html>

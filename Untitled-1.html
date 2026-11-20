@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flora Premium | ყვავილების ონლაინ მაღაზია</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --accent: #d4a373;
+      --bg: #fdfbf7;
+      --card-bg: #ffffff;
+      --danger: #e74c3c;
+      --success: #2ecc71;
+      --text-muted: #6c757d;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg); color: var(--primary); padding-bottom: 60px; }
+
+    /* Header & Nav */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #eee;
+      padding: 15px 30px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+    .logo span { color: var(--accent); }
+
+    .nav-actions { display: flex; gap: 15px; align-items: center; }
+    .btn-icon { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--primary); position: relative; }
+    .badge { position: absolute; top: -8px; right: -8px; background: var(--accent); color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; }
+
+    .admin-toggle-btn {
+      background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: 0.3s;
+    }
+    .admin-toggle-btn.active { background: var(--accent); }
+
+    /* Layout Container */
+    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+
+    /* Admin Panel Styling */
+    #admin-panel {
+      background: white; border: 2px dashed var(--accent); border-radius: var(--radius); padding: 25px; margin-bottom: 40px; display: none;
+    }
+    #admin-panel.show { display: block; }
+    #admin-panel h2 { margin-bottom: 15px; color: var(--primary); }
+    .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+    .admin-grid input, .admin-grid select { padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 0.9rem; }
+    .btn-add { background: var(--success); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+
+    /* Filter Controls */
+    .filter-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .filter-btn { padding: 8px 20px; border: 1px solid #ddd; background: white; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+    .filter-btn.active, .filter-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+    /* Bouquets Grid */
+    .bouquets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+    .card { background: var(--card-bg); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: 0.3s; display: flex; flex-direction: column; position: relative; }
+    .card:hover { transform: translateY(-5px); }
+    .card img { width: 100%; height: 350px; object-fit: cover; }
+    .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+    .card-title { font-size: 1.2rem; margin-bottom: 5px; }
+    .card-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; flex-grow: 1; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; }
+    .price { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+    .btn-cart { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .btn-cart:hover { background: var(--accent); }
+    .btn-delete { position: absolute; top: 10px; right: 10px; background: var(--danger); color: white; border: none; padding: 6px 10px; border-radius: 50%; cursor: pointer; display: none; }
+    .admin-mode .btn-delete { display: block; }
+
+    /* Side Cart Drawer */
+    .cart-drawer {
+      position: fixed; top: 0; right: -400px; width: 380px; height: 100%; background: white; box-shadow: -5px 0 25px rgba(0,0,0,0.1); z-index: 200; transition: 0.3s ease; padding: 25px; display: flex; flex-direction: column;
+    }
+    .cart-drawer.open { right: 0; }
+    .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+    .cart-items { flex-grow: 1; overflow-y: auto; margin: 20px 0; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #f9f9f9; padding-bottom: 10px; }
+    .checkout-btn { background: var(--accent); color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <a href="#" class="logo">Flora<span>.ge</span></a>
+    <div class="nav-actions">
+      <button class="admin-toggle-btn" id="adminToggleBtn" onclick="toggleAdminMode()">🛠 ადმინ რეჟიმი</button>
+      <button class="btn-icon" onclick="toggleCart()">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="badge" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Admin Control Panel -->
+    <div id="admin-panel">
+      <h2>🛠 ადმინისტრატორის პანელი — თაიგულის დამატება</h2>
+      <div class="admin-grid">
+        <input type="text" id="newTitle" placeholder="თაიგულის დასახელება">
+        <input type="text" id="newDesc" placeholder="შემადგენლობა (მაგ. ვარდი, ევკალიპტი)">
+        <input type="number" id="newPrice" placeholder="ფასი (₾)">
+        <select id="newCategory">
+          <option value="romance">რომანტიკა</option>
+          <option value="premium">პრემიუმი</option>
+          <option value="roses">ვარდები</option>
+        </select>
+        <input type="text" id="newImage" placeholder="ფოტოს URL ბმული">
+      </div>
+      <button class="btn-add" onclick="addBouquet()">+ თაიგულის დამატება კატალოგში</button>
+    </div>
+
+    <h1 style="text-align: center; margin-bottom: 20px;">ექსკლუზიური თაიგულების კოლექცია</h1>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterCategory('all')">ყველა</button>
+      <button class="filter-btn" onclick="filterCategory('premium')">პრემიუმი</button>
+      <button class="filter-btn" onclick="filterCategory('romance')">რომანტიკა</button>
+      <button class="filter-btn" onclick="filterCategory('roses')">ვარდები</button>
+    </div>
+
+    <!-- Bouquets Grid -->
+    <div class="bouquets-grid" id="bouquetsGrid"></div>
+
+  </div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>თქვენი კალათა</h3>
+      <button class="btn-icon" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p style="text-align: center; color: var(--text-muted); margin-top: 40px;">კალათა ცარიელია</p>
+    </div>
+    <div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: 700; font-size: 1.1rem;">
+        <span>სულ:</span>
+        <span id="cartTotal">0 ₾</span>
+      </div>
+      <button class="checkout-btn" onclick="alert('გადადიხართ შეკვეთის გაფორმებაზე!')">შეკვეთის გაფორმება</button>
+    </div>
+  </div>
+
+  <script>
+    // რეალური თაიგულების საწყისი მონაცემები
+    let bouquets = [
+      {
+        id: 1,
+        title: "პასტელური ოცნება",
+        desc: "პიონები, ვარდისფერი ვარდები, ევკალიპტი",
+        price: 145,
+        category: "premium",
+        image: "https://lilatflowers.ge/wp-content/uploads/2024/01/35-1200x1798.jpg"
+      },
+      {
+        id: 2,
+        title: "ნაზი გრძნობა",
+        desc: "პასტელური ვარდები, დეკორატიული შეფუთვა",
+        price: 110,
+        category: "romance",
+        image: "https://montago.ge/wp-content/uploads/2025/02/7d4d2a02-f6db-47c7-8924-f078ac918592.jpg"
+      },
+      {
+        id: 3,
+        title: "სამეფო ელეგანტურობა",
+        desc: "ექსკლუზიური მიქსი, ჰორტენზია, პიონისებრი ვარდები",
+        price: 220,
+        category: "premium",
+        image: "https://static.wixstatic.com/media/66d695_8ed892812bb14fb0b043264b44d61834~mv2.jpg/v1/fill/w_736,h_981,al_c,q_85,enc_avif,quality_auto/66d695_8ed892812bb14fb0b043264b44d61834~mv2.jpg"
+      },
+      {
+        id: 4,
+        title: "სიყვარულის სიმფონია",
+        desc: "წითელი ვარდები, გიპსოფილა, შავი შეფუთვა",
+        price: 160,
+        category: "roses",
+        image: "https://liliaflowers.ge/wp-content/uploads/2026/02/WhatsApp-Image-2026-02-09-at-14.25.241.jpeg"
+      },
+      {
+        id: 5,
+        title: "გაზაფხულის სუნთქვა",
+        desc: "ტიტები, ნარცისები, მწვანე დეკორი",
+        price: 95,
+        category: "romance",
+        image: "https://lilatflowers.ge/wp-content/uploads/2022/11/18.1-min-scaled-1200x1798.jpg"
+      },
+      {
+        id: 6,
+        title: "დილის ნამი",
+        desc: "თეთრი ვარდები, ევკალიპტი, ქაღალდის შეფუთვა",
+        price: 130,
+        category: "roses",
+        image: "https://lilatflowers.ge/wp-content/uploads/2026/01/4.png"
+      }
+    ];
+
+    let cart = [];
+    let isAdmin = false;
+    let currentFilter = 'all';
+
+    // Render Bouquets
+    function renderBouquets() {
+      const grid = document.getElementById('bouquetsGrid');
+      grid.innerHTML = '';
+
+      const filtered = currentFilter === 'all' 
+        ? bouquets 
+        : bouquets.filter(b => b.category === currentFilter);
+
+      filtered.forEach(b => {
+        const card = document.createElement('div');
+        card.className = `card ${isAdmin ? 'admin-mode' : ''}`;
+        card.innerHTML = `
+          <button class="btn-delete" onclick="deleteBouquet(${b.id})"><i class="fas fa-trash"></i></button>
+          <img src="${b.image}" alt="${b.title}">
+          <div class="card-body">
+            <h3 class="card-title">${b.title}</h3>
+            <p class="card-desc">${b.desc}</p>
+            <div class="card-footer">
+              <span class="price">${b.price} ₾</span>
+              <button class="btn-cart" onclick="addToCart('${b.title}', ${b.price})">კალათაში</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Toggle Admin Mode
+    function toggleAdminMode() {
+      isAdmin = !isAdmin;
+      document.getElementById('admin-panel').classList.toggle('show', isAdmin);
+      document.getElementById('adminToggleBtn').classList.toggle('active', isAdmin);
+      renderBouquets();
+    }
+
+    // Add Bouquet (Admin)
+    function addBouquet() {
+      const title = document.getElementById('newTitle').value;
+      const desc = document.getElementById('newDesc').value;
+      const price = parseFloat(document.getElementById('newPrice').value);
+      const category = document.getElementById('newCategory').value;
+      const image = document.getElementById('newImage').value || 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=600&q=80';
+
+      if (!title || !price) {
+        alert('გთხოვთ შეავსოთ დასახელება და ფასი!');
+        return;
+      }
+
+      const newObj = { id: Date.now(), title, desc, price, category, image };
+      bouquets.unshift(newObj);
+      renderBouquets();
+
+      // Reset Inputs
+      document.getElementById('newTitle').value = '';
+      document.getElementById('newDesc').value = '';
+      document.getElementById('newPrice').value = '';
+      document.getElementById('newImage').value = '';
+    }
+
+    // Delete Bouquet (Admin)
+    function deleteBouquet(id) {
+      bouquets = bouquets.filter(b => b.id !== id);
+      renderBouquets();
+    }
+
+    // Filter Category
+    function filterCategory(cat) {
+      currentFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      renderBouquets();
+    }
+
+    // Cart System
+    function toggleCart() {
+      document.getElementById('cartDrawer').classList.toggle('open');
+    }
+
+    function addToCart(title, price) {
+      cart.push({ title, price });
+      updateCart();
+    }
+
+    function updateCart() {
+      document.getElementById('cartCount').innerText = cart.length;
+      const container = document.getElementById('cartItems');
+      
+      if (cart.length === 0) {
+        container.innerHTML = `<p style="text-align: center; color: var(--text-muted); margin-top: 40px;">კალათა ცარიელია</p>`;
+      } else {
+        container.innerHTML = cart.map((item, index) => `
+          <div class="cart-item">
+            <div>
+              <strong>${item.title}</strong>
+              <div style="color: var(--text-muted); font-size: 0.85rem;">${item.price} ₾</div>
+            </div>
+            <button class="btn-icon" onclick="removeFromCart(${index})" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+          </div>
+        `).join('');
+      }
+
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById('cartTotal').innerText = `${total} ₾`;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    // Initial Run
+    renderBouquets();
+  </script>
+</body>
+</html>
